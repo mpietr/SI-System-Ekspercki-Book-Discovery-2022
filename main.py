@@ -5,9 +5,10 @@ sg.theme('TealMono')
 
 DEBUG = False
 
-MAX = 4
+MAX = 10
+
 WIDTH = 600
-HEIGHT = 300
+HEIGHT = 300 + MAX * 10
 
 env = clips.Environment()
 
@@ -22,14 +23,14 @@ message = dict(list(msg_template.facts())[0])
 if DEBUG:
     print(message)
 
-BUTTON_KEYS = ['button0', 'button1', 'button2', 'button3', 'button4']
-TEXT_KEYS = ['text0', 'text1', 'text2', 'text3', 'text4']
+BUTTON_KEYS = ['button_{}'.format(i) for i in range(MAX)]
+TEXT_KEYS = ['text_{}'.format(i) for i in range(MAX)]
 
 options = message['answers']
 s = len(options)
 
-radio_buttons = [[sg.Radio('', 1, key=BUTTON_KEYS[i], visible=(i < 3), default=(i == -1)),
-                  sg.Text(options[i] if i < 3 else '', pad=(0, 0), font='Any 11', key=TEXT_KEYS[i])] for i in
+radio_buttons = [[sg.Radio('', 1, key=BUTTON_KEYS[i], visible=(i < s), default=(i == -1)),
+                  sg.Text(options[i] if i < s else '', pad=(0, 0), font='Any 11', key=TEXT_KEYS[i])] for i in
                  range(MAX)]
 
 layout = [
